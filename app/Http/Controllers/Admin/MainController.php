@@ -10,13 +10,7 @@ class MainController extends Controller
 {
     public function index(){
         
-        // Tag::create([
-        //     'title' => 'Привет мир!',
-        // ]);
 
-        $tag = new Tag();
-        $tag->title = 'Привет мир';
-        $tag->save();
 
         return view('admin.index',[ 'title' => 'Admin']);
         
