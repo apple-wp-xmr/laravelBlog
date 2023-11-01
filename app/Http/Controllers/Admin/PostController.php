@@ -19,7 +19,9 @@ class PostController extends Controller
     public function index() 
      {    
 
-        $posts = Post::paginate(2);
+
+
+        $posts = Post::with('category', 'tags')->paginate(2);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -53,11 +55,7 @@ class PostController extends Controller
 
         $data = $request->all();
 
-        if($request->hasFile('thumbnail'))
-        {
-            $folder = date('Y-m-d');
-            $data['thumbnail'] = $request->file('thumbnail')->store("images/{$folder}");
-        }
+        $data['thumbnail'] = Post::uploadImage($request);
 
         $post = Post::create($data);
         
@@ -103,7 +101,7 @@ class PostController extends Controller
     {
 
 
-        // Step 2: Validate the input data
+        // Step 1: Validate the input data
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -112,17 +110,14 @@ class PostController extends Controller
             'thumbnail' => 'nullable|image',
         ]);
 
-        // Step 1: Retrieve the post
+        // Step 2: Retrieve the post
         $post = Post::find($id);
 
         // Step 3: Update the post's attributes
         $data = $request->all();
 
-        if ($request->hasFile('thumbnail')) {
-            Storage::delete($post->thumbnail);
-            $folder = date('Y-m-d');
-            $data['thumbnail'] = $request->file('thumbnail')->store("images/{$folder}");
-        }
+
+        $data['thumbnail'] = Post::uploadImage($request, $post->thumbnail);
 
         // Update the post attributes
         $post->update($data);
@@ -142,11 +137,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        // $category = Category::find($id);
-        // $category->delete();
-
-
-        
+        $post = Post::find($id);
+        $post->tags()->sync([]);
+        Storage::delete($post->thumbnail);
+        $post->delete();
         return redirect()->route('posts.index')->with('success', 'Статтья удалена');
     }
 }

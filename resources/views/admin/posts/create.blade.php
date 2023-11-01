@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Цитата</label>
-                                    <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="3"
+                                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3"
                                         placeholder="Цитата ..."></textarea>
                                 </div>
                                 <div class="form-group">

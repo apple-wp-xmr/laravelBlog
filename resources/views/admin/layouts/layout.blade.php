@@ -4,11 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin For L Blog</title>
+    <title>AdminLTE 3 | Blank Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/admin.css') }}">
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -19,8 +24,8 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" data-enable-remember="true" href="#"
+                        role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="../../index3.html" class="nav-link">Home</a>
@@ -162,7 +167,7 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">{{$profile}}</a>
                     </div>
                 </div>
 
@@ -200,9 +205,10 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tag"></i>
+                                <i class="nav-icon fas fa-tags"></i>
                                 <p>
                                     Теги
                                     <i class="right fas fa-angle-left"></i>
@@ -223,6 +229,7 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-edit"></i>
@@ -235,7 +242,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('posts.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Список статьей</p>
+                                        <p>Список статей</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -266,6 +273,12 @@
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
+                            </div>
+                        @endif
+
+                        @if (session()->has('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
                             </div>
                         @endif
 
@@ -308,6 +321,80 @@
                 $(this).closest('.has-treeview').addClass('menu-open');
             }
         });
+
+        $(document).ready(function() {
+            bsCustomFileInput.init();
+        });
+    </script>
+
+    <script src="{{ asset('assets/admin/ckeditor5/build/ckeditor.js') }}"></script>
+    <script src="{{ asset('assets/admin/ckfinder/ckfinder.js') }}"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                ckfinder: {
+                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json'
+                },
+                image: {
+                    // You need to configure the image toolbar, too, so it uses the new style buttons.
+                    toolbar: ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full',
+                        'imageStyle:alignRight'
+                    ],
+
+                    styles: [
+                        // This option is equal to a situation where no style is applied.
+                        'full',
+
+                        // This represents an image aligned to the left.
+                        'alignLeft',
+
+                        // This represents an image aligned to the right.
+                        'alignRight'
+                    ]
+                },
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'indent',
+                        'outdent',
+                        'alignment',
+                        '|',
+                        'blockQuote',
+                        'insertTable',
+                        'undo',
+                        'redo',
+                        'CKFinder',
+                        'mediaEmbed'
+                    ]
+                },
+                language: 'ru',
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells'
+                    ]
+                },
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#description'), {
+                toolbar: ['heading', '|', 'bold', 'italic', '|', 'undo', 'redo']
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
     </script>
 
 </body>
