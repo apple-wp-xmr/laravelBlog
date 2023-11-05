@@ -18,9 +18,6 @@ class PostController extends Controller
      */
     public function index() 
      {    
-
-
-
         $posts = Post::with('category', 'tags')->paginate(2);
         return view('admin.posts.index', compact('posts'));
     }
@@ -70,7 +67,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         //
     }
@@ -116,8 +113,16 @@ class PostController extends Controller
         // Step 3: Update the post's attributes
         $data = $request->all();
 
+   
 
-        $data['thumbnail'] = Post::uploadImage($request, $post->thumbnail);
+    
+
+        if( $file = Post::uploadImage($request, $post->thumbnail))
+        {
+            $data['thumbnail'] = $file; 
+        }
+
+
 
         // Update the post attributes
         $post->update($data);
