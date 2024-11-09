@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PostContoller;
 use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,15 +20,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'index'])->name('main.index');
 
-Route::group(['namespace' => 'category', 'prefix' => 'category', 'as' => 'category.'], function(){
+Route::group([ 'prefix' => 'category', 'as' => 'category.'], function(){
     Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
     Route::get('/create', [CategoryController::class, 'create'])->name('create');
-    Route::post('/store', [CategoryController::class, 'store'])->name('store');
     Route::get('/show/{category}', [CategoryController::class, 'show'])->name('show');
     Route::get('/edit/{category}', [CategoryController::class, 'edit'])->name('edit');
     Route::patch('/patch/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/destroy/{category}', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
-Route::resource('tags', TagController::class);
+Route::resource('tag', TagController::class);
+Route::resource('post', PostContoller::class);
 

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Tag\StoreRequest;
-use App\Http\Requests\Admin\Tag\UpdateRequest;
-use App\Models\Tag;
+use App\Http\Requests\Admin\Post\StoreRequest;
+use App\Http\Requests\Admin\Post\UpdateRequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
-class TagController extends Controller
+class PostContoller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
-        return view('admin.tag.index', compact('tags'));
+        $posts = Post::all();
+        return view('admin.post.index', compact('posts'));
     }
 
     /**
@@ -28,7 +28,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        return view('admin.tag.create');
+        return view('admin.post.create');
     }
 
     /**
@@ -40,55 +40,56 @@ class TagController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-        Tag::firstOrCreate(['title' => $data['title']]);
-        return redirect()->route('admin.tag.index');
+        Post::firstOrCreate($data);
+        return redirect()->route('admin.post.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $tag
+     * @param  int  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show(post $post)
     {
-        return view('admin.tag.show', compact('tag'));
+        return view('admin.post.show', compact('post'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $tag
+     * @param  int  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tag $tag)
+    public function edit(post $post)
     {
-        return view('admin.tag.edit', compact('tag'));
+        return view('admin.post.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $tag
+     * @param  int  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Tag $tag)
+    public function update(UpdateRequest $request, post $post)
     {
         $data = $request->validated();
-        $tag->update($data);
-        return redirect()->route('admin.tag.show', $tag->id);
+        $post->update($data);
+        return redirect()->route('admin.post.show', $post->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $tag
+     * @param  int  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy(post $post)
     {
-        $tag->delete();
-        return redirect()->route('admin.tag.index');
+        $post->delete();
+        return redirect()->route('admin.post.index');
     }
 }
+
