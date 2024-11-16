@@ -22,6 +22,10 @@ return new class extends Migration
 
             $table->index('category_id', 'post_category_idx');
             $table->foreign('category_id', 'post_category_fk')->on('categories')->references('id');
+
+            $table->string('preview_image');
+            $table->string('main_image');
+            $table->softDeletes();
         });
     }
 
