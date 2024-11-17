@@ -8,12 +8,20 @@ use App\Http\Requests\Admin\Post\UpdateRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Service\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PostContoller extends Controller
 {
+    public $service;
+
+    public function __construct(PostService $service){
+        $this->service = $service;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -45,22 +53,9 @@ class PostContoller extends Controller
      */
     public function store(StoreRequest $request)
     {
-        try{
-            DB::beginTransaction();
-                $data = $request->validated();
-                $data['preview_image'] = Storage::disk('public')->put('/images',  $data['preview_image']);
-                $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
+        $data = $request->validated();
+        $this->service->store($data);
 
-                $tag_ids = $data['tag_ids'];
-                unset($data['tag_ids']);
-
-                $post = Post::firstOrCreate($data);
-                $post->tags()->attach($tag_ids);
-            DB::commit();
-        } catch(\Exception $exception){
-            DB::rollBack();
-            abort(404);
-        }
         return redirect()->route('admin.post.index');
     }
 
@@ -101,20 +96,7 @@ class PostContoller extends Controller
         $data = $request->validated();
 
 
-        if(isset($data['preview_image'])){
-            $data['preview_image'] = Storage::disk('public')->put('/images',  $data['preview_image']);
-        }
-        if(isset($data['main_image'])){
-            $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
-        }
-
-        $tag_ids = [];
-        if(isset($data['tag_ids'])){
-            $tag_ids = $data['tag_ids'];
-            unset($data['tag_ids']);
-       }
-        $post->update($data);
-        $post->tags()->sync($tag_ids);
+        $post = $this->service->update($data, $post);
 
         return redirect()->route('admin.post.show', $post->id);
     }
