@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Main</a></li>
-                            <li class="breadcrumb-item active">Tags</li>
+                            <li class="breadcrumb-item active">Users</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -31,20 +31,42 @@
                         <!-- general form elements -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">tag form</h3>
+                                <h3 class="card-title">User form</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{ route('admin.tag.update', $tag->id) }}" method="post">
+                            <form action="{{ route('admin.user.update', $user->id) }}" method="POST">
                                 @csrf
                                 @method('patch')
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="tagName">tag</label>
-                                        <input type="text" class="form-control" id="tagName" name="title"
-                                            value="{{ $tag->title }}" placeholder="tag name">
-                                        @error('title')
-                                            <div class="text-danger">This field can't be empty</div>
+                                        <label for="userName">Name</label>
+                                        <input type="text" class="form-control" id="userName" name="name"
+                                            value="{{ $user->name }}" placeholder="user name">
+                                        @error('name')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="userEmail">Email</label>
+                                        <input type="email" class="form-control" id="userEmail" name="email"
+                                            value="{{ $user->email }}" placeholder="user email">
+                                        @error('email')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Select Role</label>
+                                        <select class="form-control" name="role">
+                                            @foreach ($roles as $id => $role)
+                                                <option value="{{ $id }}"
+                                                    {{ $id == $user->role ? 'selected' : '' }}>
+                                                    {{ $role }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('role')
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
 
@@ -52,7 +74,7 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Update tag</button>
+                                    <button type="submit" class="btn btn-primary">Update User</button>
                                 </div>
                             </form>
                         </div>

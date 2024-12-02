@@ -8,14 +8,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6 d-flex align-items-center">
-                        <h1 class="m-3">Category</h1>
-                        <a href="{{ route('admin.category.edit', $category->id) }}" class="btn btn-warning"><i
+                        <h1 class="m-3">User</h1>
+                        <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning"><i
                                 class="fas fas fa-pen"></i></a>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Main</a></li>
-                            <li class="breadcrumb-item active">Categories</li>
+                            <li class="breadcrumb-item active">Users</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -29,8 +29,8 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row pb-3">
                     <div class="col-2">
-                        <a href="{{ route('admin.category.index') }}" class="btn btn-block btn-primary">See All
-                            Categories</a>
+                        <a href="{{ route('admin.user.index') }}" class="btn btn-block btn-primary">See All
+                            Users</a>
                     </div>
                 </div>
                 <div class="row pb-3">
@@ -45,11 +45,13 @@
                                     <tbody>
                                         <tr>
                                             <td>ID</td>
-                                            <td>Title</td>
+                                            <td>Name</td>
+                                            <td>Email</td>
                                         </tr>
                                         <tr>
-                                            <td>{{ $category->id }}</td>
-                                            <td>{{ $category->title }}</td>
+                                            <td>{{ $user->id }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

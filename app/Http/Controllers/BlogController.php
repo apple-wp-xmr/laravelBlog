@@ -8,7 +8,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        return view('blog.index'); // Correctly referencing the index view
+        return view('blog.index'); 
     }
     
 }
