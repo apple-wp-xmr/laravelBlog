@@ -46,13 +46,13 @@ class UserController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
+        // $data = $request->validated();
         // $password = Str::random(12);
         // $data['password'] = Hash::make($password);
         // $user = User::firstOrCreate(['email' => $data['email']], $data);
         // Mail::to($data['email'])->send(new PasswordMail($password));
         // event(new Registered($user));
-        StoreUserJob::dispatch($data);
+
         return redirect()->route('admin.user.index');
     }
 
@@ -102,7 +102,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
+        // $user->delete();
         return redirect()->route('admin.user.index');
     }
 }

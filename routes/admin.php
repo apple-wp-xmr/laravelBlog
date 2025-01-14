@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ImagePostController;
 use App\Http\Controllers\Admin\PostContoller;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -34,4 +35,6 @@ Route::group([ 'prefix' => 'category', 'as' => 'category.'], function(){
 Route::resource('tag', TagController::class);
 Route::resource('post', PostContoller::class);
 Route::resource('user', UserController::class);
+
+Route::post('/post/images', [ImagePostController::class, 'store'])->name('post.image');
 

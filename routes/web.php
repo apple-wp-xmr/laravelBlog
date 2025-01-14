@@ -23,6 +23,11 @@ Route::get('/', function () {
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 
-Auth::routes(['verify' => true]);
-
-
+Auth::routes([
+'login' => true,      // Disable login routes
+'logout' => true,     // Disable logout routes
+'register' => false,   // Disable registration routes
+'reset' => false,      // Disable password reset routes
+'confirm' => false,    // Disable password confirmation routes
+'verify' => false      // Disable email verification routes]);
+]);

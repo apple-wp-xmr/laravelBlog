@@ -26,7 +26,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row pb-3">
                     <div class="col-2">
-                        <a href="{{ route('admin.user.create') }}" class="btn btn-block btn-primary">Add User</a>
+                        <a href="{{ route('admin.user.create') }}" class="btn btn-block btn-primary disabled">Add User</a>
                     </div>
                 </div>
                 <div class="row pb-3">

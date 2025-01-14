@@ -336,10 +336,13 @@
 // });
 
 $(document).ready(function () {
+    const csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+
     $("#summernote").summernote({
         toolbar: [
-            // [groupName, [list of button]]
-            ["style", ["bold", "italic", "underline", "clear"]],
+            ["style", ["style", "bold", "italic", "underline", "clear"]],
             ["font", ["strikethrough", "superscript", "subscript"]],
             ["fontsize", ["fontsize"]],
             ["color", ["color"]],
@@ -348,9 +351,36 @@ $(document).ready(function () {
             ["Insert", ["picture"]],
             ["Misc", ["undo", "redo", "help"]],
         ],
+        styleTags: [
+            "p",
+            {
+                title: "Blockquote",
+                tag: "blockquote",
+                className: "blockquote",
+                value: "blockquote",
+            },
+        ],
         callbacks: {
             onImageUpload: function (files) {
-                console.log(files);
+                const formData = new FormData();
+                formData.append("image", files[0]); // Append the file to the FormData object
+
+                fetch("/admin/post/images", {
+                    method: "POST",
+                    body: formData, // Set the FormData as the body of the request
+                    headers: {
+                        Accept: "application/json",
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                    credentials: "same-origin",
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log("Success:", data);
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
                 // upload image to server and create imgNode...
                 // $summernote.summernote("insertNode", imgNode);
             },
