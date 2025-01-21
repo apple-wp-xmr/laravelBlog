@@ -378,7 +378,9 @@ $(document).ready(function () {
                     .then((data) => {
                         let img = document.createElement("img");
                         img.src = data.data.url;
-                        console.log(data.data.path);
+                        img.dataset.imageid = data.data.id;
+                        img.style.width = "100%";
+
                         range.summernote("insertNode", img);
                     })
                     .catch((error) => {
