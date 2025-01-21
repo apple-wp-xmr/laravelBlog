@@ -340,7 +340,7 @@ $(document).ready(function () {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
 
-    $("#summernote").summernote({
+    let range = $("#summernote").summernote({
         toolbar: [
             ["style", ["style", "bold", "italic", "underline", "clear"]],
             ["font", ["strikethrough", "superscript", "subscript"]],
@@ -376,13 +376,15 @@ $(document).ready(function () {
                 })
                     .then((response) => response.json())
                     .then((data) => {
-                        console.log("Success:", data);
+                        let img = document.createElement("img");
+                        img.src = data.data.url;
+                        console.log(data.data.path);
+                        range.summernote("insertNode", img);
                     })
                     .catch((error) => {
                         console.error("Error:", error);
                     });
                 // upload image to server and create imgNode...
-                // $summernote.summernote("insertNode", imgNode);
             },
             onImageUploadError: function (text) {
                 console.log("error just happened while upload");
